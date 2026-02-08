@@ -1,22 +1,23 @@
 require('dotenv').config();
-const express = require('express');
 const { GoogleGenAI } = require('@google/genai');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-//Cross-origin resource sharing (CORS)
-const cors = require("cors");
 app.use(cors({
-  origin: "*", // later you can restrict this
+  origin: "*",
   methods: ["GET", "POST"]
 }));
 
+app.use(express.json());
+
 
 // Initialize the client (Note: no { apiKey: ... } object here)
-const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({
+  apiKey: process.env.GOOGLE_API_KEY
+});
+
 
 const menuContext = `
 You are the AI Waiter. Use this detailed menu to answer:
@@ -89,4 +90,9 @@ app.listen(PORT, () => {
 //Health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
+});
+
+//
+app.get("/faq", (req, res) => {
+  res.json(faqData);
 });
