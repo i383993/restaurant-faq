@@ -1,14 +1,23 @@
 require('dotenv').config();
-const express = require('express');
 const { GoogleGenAI } = require('@google/genai');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"]
+}));
+
 app.use(express.json());
 
+
 // Initialize the client (Note: no { apiKey: ... } object here)
-const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({
+  apiKey: process.env.GOOGLE_API_KEY
+});
+
 
 const menuContext = `
 You are the AI Waiter. Use this detailed menu to answer:
@@ -71,4 +80,19 @@ app.post('/chat', async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log("Server ready on port 3000"));
+// Start the server
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+//Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+//
+app.get("/faq", (req, res) => {
+  res.json({ message: "FAQ endpoint is active" });
+});
