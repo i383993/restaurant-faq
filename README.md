@@ -1,5 +1,7 @@
 # Restaurant FAQ – Full Stack Web Application
 
+A full-stack Restaurant FAQ web application built with a React frontend and a Node.js + Express backend. The backend exposes REST API endpoints like /faq, and the frontend consumes these APIs to display content. Both services are deployed using Render, with environment-based configuration and clean project structure.
+
 A full-stack web application that provides a restaurant FAQ service using a **React frontend** and a **Node.js + Express backend**. The application is deployed on **Render** with a clear separation between frontend and backend services.
 
 ---
